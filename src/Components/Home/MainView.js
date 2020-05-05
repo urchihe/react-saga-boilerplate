@@ -33,7 +33,7 @@ YourFeedTab.propTypes = {
 const GlobalFeedTab = (props) => {
   const clickHandler = ev => {
     ev.preventDefault();
-    props.onTabClick('all', ArticleActions.getArticles, ArticleActions.getArticlesall());
+    props.onTabClick('all', ArticleActions.getArticles, ArticleActions.getArticles());
   };
   return (
     <li className="nav-item">

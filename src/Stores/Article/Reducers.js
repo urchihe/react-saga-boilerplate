@@ -270,8 +270,8 @@ export const homePageLoaded = (state, {action}) => ({
 export const changeTabs = (state, {action}) => ({
   ...state,
   pager: action.pager,
-  articles: action.payload.articles,
-  articlesCount: action.payload.articlesCount,
+  articles: action.articles,
+  articlesCount: action.articlesCount,
   tab: action.tab,
   currentPage: 0,
   tag: null
