@@ -8,7 +8,7 @@ import { createLogger } from 'redux-logger'
 import { routerMiddleware } from 'react-router-redux'
 import storage from 'redux-persist/lib/storage';
 
-export const history = createBrowserHistory();
+const history = createBrowserHistory();
 // Build the middleware for intercepting and dispatching navigation actions
 const myRouterMiddleware = routerMiddleware(history);
 const persistConfig = {
@@ -29,10 +29,10 @@ export default (rootReducer, rootSaga) => {
   const logger = createLogger()
   const getMiddleware = () => {
     if (process.env.NODE_ENV === 'production') {
-      return applyMiddleware(myRouterMiddleware, promiseMiddleware, localStorageMiddleware, ...middleware, logger);
+      return applyMiddleware(myRouterMiddleware, promiseMiddleware, localStorageMiddleware, ...middleware);
     } else {
       // Enable additional logging in non-production environments.
-      return applyMiddleware(myRouterMiddleware, promiseMiddleware, localStorageMiddleware, ...middleware)
+      return applyMiddleware(myRouterMiddleware, promiseMiddleware, localStorageMiddleware, ...middleware, logger)
     }
   };
 
@@ -50,5 +50,5 @@ const composeEnhancers = composeWithDevTools({})
   // Kick off the root saga
   sagaMiddleware.run(rootSaga)
 
-  return { store, persistor}
+  return { store, persistor, history}
 }

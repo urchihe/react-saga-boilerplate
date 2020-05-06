@@ -7,8 +7,8 @@ import { Route, Switch,Router } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import * as serviceWorker from './serviceWorker';
 import App from './Components/App';
-import { history }  from './Stores/createStore'
-const { store, persistor} = createStore()
+//import { history }  from './Stores/createStore'
+const { store, persistor,history} = createStore()
 
 ReactDOM.render((
   <Provider store={store}>
