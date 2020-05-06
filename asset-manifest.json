@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/react-saga-boilerplate/static/js/main.b51a8964.chunk.js",
+    "main.js.map": "/react-saga-boilerplate/static/js/main.b51a8964.chunk.js.map",
+    "runtime-main.js": "/react-saga-boilerplate/static/js/runtime-main.711e9439.js",
+    "runtime-main.js.map": "/react-saga-boilerplate/static/js/runtime-main.711e9439.js.map",
+    "static/js/2.f5f0b71a.chunk.js": "/react-saga-boilerplate/static/js/2.f5f0b71a.chunk.js",
+    "static/js/2.f5f0b71a.chunk.js.map": "/react-saga-boilerplate/static/js/2.f5f0b71a.chunk.js.map",
+    "index.html": "/react-saga-boilerplate/index.html",
+    "precache-manifest.a3142a561bbd6c4b66498616b93b79b8.js": "/react-saga-boilerplate/precache-manifest.a3142a561bbd6c4b66498616b93b79b8.js",
+    "service-worker.js": "/react-saga-boilerplate/service-worker.js",
+    "static/js/2.f5f0b71a.chunk.js.LICENSE.txt": "/react-saga-boilerplate/static/js/2.f5f0b71a.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.711e9439.js",
+    "static/js/2.f5f0b71a.chunk.js",
+    "static/js/main.b51a8964.chunk.js"
+  ]
+}
