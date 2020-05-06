@@ -87,7 +87,6 @@ export function* getFeed() {
 // delete article by slug
 export function* getArticle({ slug }) {
   const response = yield call(ArticleService.getArticle,{slug})
-  // const state = yield select()
   if (response.ok === true) {
     console.log(response.data)
     yield put(ArticleActions.articleSuccess(response.data))
