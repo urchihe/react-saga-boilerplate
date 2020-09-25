@@ -8,14 +8,11 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types'
 
 class ProfileFavorites extends Profile {
-  componentWillMount() {
-    this.props.onLoad(page => this.props.onGetArticleFavoritedBy(this.props.match.params.username, page), Promise.all([
-      this.props.onGetProfile(this.props.match.params.username),
-      this.props.onGetArticleFavoritedBy(this.props.match.params.username)
-    ]));
+  componentDidMount() {
+    this.props.onLoad(this.props.match.params.username)
   }
 
-  componentWillUnmount() {
+  componentDidCatch() {
     this.props.onUnload();
   }
 
@@ -49,12 +46,10 @@ ProfileFavorites.propTypes = {
   onGetArticleFavoritedBy: PropTypes.func, 
 }
 const mapDispatchToProps = dispatch => ({
-  onLoad: (pager, payload) =>
-    dispatch(ProfileActions.profilePageLoaded({ pager, payload })),
-  onGetProfile: (username) =>
-    dispatch(ProfileActions.getProfile(username)),
-  onGetArticleFavoritedBy: (author,page) =>
-    dispatch(ArticleActions.getArticleFavoritedBy(author,page)),
+  onLoad: (username) => {
+    dispatch(ProfileActions.getProfile(username))
+    dispatch(ArticleActions.getFavouritedByArticle(username))
+  },
   onUnload: () =>
     dispatch(CommonActions.pageUnloaded()),
 });

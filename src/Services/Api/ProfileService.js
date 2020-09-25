@@ -5,7 +5,7 @@ function followUser(username) {
 }
 
 function getProfile(username) {
-    return ApiService.post(`/profiles/${username}`)
+    return ApiService.get(`/profiles/${username}`)
 }
 
 function unfollowUser(username) {

@@ -8,13 +8,13 @@ export const createComment = (state) => ({
   createCommenErrors: null,
 })
 
-export const createCommentSuccess = (state) => ({
+export const createCommentSuccess = (state, { payload }) => ({
     ...state,
     createCommenIsLoading: false,
     createCommenErrors: null,
 })
 
-  export const createCommentError = (state,{error}) => ({
+  export const createCommentError = (state, { error }) => ({
     ...state,
     createCommenIsLoading: false,
     createCommentErrors: error,

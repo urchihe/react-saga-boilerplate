@@ -11,12 +11,9 @@ import { PropTypes } from 'prop-types'
 const Promise = global.Promise;
 
 class Home extends React.Component {
-  componentDidMount() {
-    //const tab = this.props.token ? 'feed' : 'all';
-    const articlesPromise = this.props.token ?
-      this.props.loadFeed:
-      this.props.loadArticles
-
+  componentWillMount() {
+    this.tab = this.props.token ? 'feed' : 'all';
+    const articlesPromise = this.props.token ? this.props.loadFeed: this.props.loadArticles
       Promise.all([this.props.loadTags(), articlesPromise()]);
   }
 
@@ -32,7 +29,7 @@ class Home extends React.Component {
 
         <div className="container page">
           <div className="row">
-            <MainView/>
+            <MainView tab={this.tab}/>
 
             <div className="col-md-3">
               <div className="sidebar">
@@ -63,15 +60,14 @@ Home.propTypes = {
   loadFeed: PropTypes.func,
 }
 const mapStateToProps = state => ({
-  ...state.common,
+  ...state.auth,
   appName: state.common.appName,
-  token: state.common.token,
   tags: state.tag.tags
 });
 
 const mapDispatchToProps = dispatch => ({
-  onClickTag: (tag, pager, payload) =>
-    dispatch(ArticleActions.getArticles(tag, pager, payload)),
+  onClickTag: (tag, pager) =>
+    dispatch(ArticleActions.getArticles(pager, tag)),
   loadArticles: (pager) =>
     dispatch(ArticleActions.getArticles(pager)),
   loadFeed: (pager) =>

@@ -1,9 +1,10 @@
 import React from 'react';
+import { PropTypes } from 'prop-types'
 
 class ListErrors extends React.Component {
   render() {
-    const errors = this.props.errors;
-    if (errors) {
+    if (this.props.errors) {
+      const errors = this.props.errors.errors
       return (
         <ul className="error-messages">
           {
@@ -22,5 +23,7 @@ class ListErrors extends React.Component {
     }
   }
 }
-
+ListErrors.propTypes = {
+  errors: PropTypes.object,
+}
 export default ListErrors;

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import { PropTypes } from 'prop-types'
 
-const CommentContainer = (props) => {
+const CommentContainer = props => {
   if (props.currentUser) {
     return (
       <div className="col-xs-12 col-md-8 offset-md-2">
@@ -14,7 +14,7 @@ const CommentContainer = (props) => {
         </div>
 
         <CommentList
-          comments={props.comments}
+          comments = {props.comments || []}
           slug={props.slug}
           currentUser={props.currentUser} />
       </div>
@@ -38,7 +38,7 @@ const CommentContainer = (props) => {
   }
 };
 CommentContainer.propTypes = {
-  comments: PropTypes.array,
+  comments: PropTypes.object,
   currentUser: PropTypes.object,
   slug: PropTypes.string,
 }

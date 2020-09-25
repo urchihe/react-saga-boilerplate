@@ -18,27 +18,26 @@ import createStore from '../Stores'
 const { store } = createStore()
 
 class App extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {} 
   }
-  componentDidUpdate(nextProps) {
-    if (nextProps.redirectTo) {
-      // this.context.router.replace(nextProps.redirectTo);
-      store.dispatch(push(nextProps.redirectTo));
-      this.props.onRedirect();
-    }
-  }
-
   componentDidMount(){
     const token = window.localStorage.getItem('jwt');
     if (token) {
       this.props.setToken(token);
     }
     this.props.onGetCurrentUser()
-    this.props.onLoad(token ? store.getState().auth.currentUser : null, token);
+    this.props.onLoad(token ? this.props.currentUser.username : null, token);
   }
 
+  componentDidUpdate(nextProps) {
+    if (nextProps.redirectTo){
+      this.props.onRedirect(nextProps)
+    }else{
+
+    }
+  }
   render() {
     if (this.props.appLoaded) {
       return (
@@ -48,25 +47,27 @@ class App extends React.Component {
             currentUser={this.props.currentUser} />
             <Switch>
             <Route exact path="/" component={Home}/>
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Route path="/editor/:slug" component={Editor} />
-            <Route path="/editor" component={Editor} />
-            <Route path="/article/:id" component={Article} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/editor/:slug" component={Editor} />
+            <Route exact path="/editor" component={Editor} />
+            <Route exact path="/article/:id" component={Article} />
             <Route path="/settings" component={Settings} />
             <Route path="/@:username/favorites" component={ProfileFavorites} />
             <Route path="/@:username" component={Profile} />
             </Switch>
         </div>
       );
+    } else {
+      return (
+        <div>
+          <Header
+            appName={this.props.appName}
+            currentUser={this.props.currentUser} />
+        </div>
+      );
     }
-    return (
-      <div>
-        <Header
-          appName={this.props.appName}
-          currentUser={this.props.currentUser} />
-      </div>
-    );
+    
   }
 }
 App.propTypes = {
@@ -80,17 +81,18 @@ App.propTypes = {
   onGetCurrentUser: PropTypes.func,
 }
 const mapStateToProps = (state) => ({
-    appLoaded: state.common.appLoaded,
-    appName: state.common.appName,
-    currentUser: state.common.currentUser,
-    redirectTo: state.common.redirectTo
+    ...state.auth,
+    appLoaded:state.common.appLoaded,
+    appName: state.common.appName
   });
 
 const mapDispatchToProps = (dispatch) => ({
   onLoad: (user, token) =>
     dispatch(CommonActions.appLoad(user, token, true)),
-  onRedirect: () =>
-    dispatch(CommonActions.redirect()),
+  onRedirect: (nextProps) => {
+    store.dispatch(push(nextProps.redirectTo));
+    dispatch(AuthActions.redirect())
+  },
   setToken: (token) => dispatch(AuthActions.setToken(token)),
   onGetCurrentUser: () => dispatch(AuthActions.getCurrentUser())
 });

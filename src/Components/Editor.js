@@ -7,11 +7,10 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types'
 
 class Editor extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
-    const updateFieldEvent =
-      key => ev => this.props.onUpdateField(key, ev.target.value);
+    const updateFieldEvent = key => ev => this.props.onUpdateField(key, ev.target.value);
     this.changeTitle = updateFieldEvent('title');
     this.changeDescription = updateFieldEvent('description');
     this.changeBody = updateFieldEvent('body');
@@ -37,34 +36,32 @@ class Editor extends React.Component {
         tagList: this.props.tagList
       };
 
-      const slug = { slug: this.props.articleSlug };
-      const promise = this.props.articleSlug ?
+      const slug = { slug: this.props.slug };
+      this.props.slug ?
         this.props.onUpdateArticle(Object.assign(article, slug)) :
         this.props.onCreateArticle(article);
-
-      this.props.onSubmit(promise);
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(nextProps) {
     if (this.props.match.params.slug !== nextProps.match.params.slug) {
       if (nextProps.match.params.slug) {
         this.props.onUnload();
-        return this.props.onLoad(this.props.onGetArticles(this.props.match.params.slug));
+        return this.props.onGetArticle(this.props.match.params.slug);
       }
-      this.props.onLoad(null);
+      this.props.onGetArticles(null)
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.match.params.slug) {
-      return this.props.onLoad(this.props.onGetArticles(this.props.match.params.slug));
+      return this.props.onGetArticle(this.props.match.params.slug);
     }
-    this.props.onLoad(null);
+    this.props.onGetArticle(null)
   }
 
   componentWillUnmount() {
-    this.props.onUnload();
+    this.props.onGetArticle(null)
   }
 
   render() {
@@ -154,7 +151,7 @@ Editor.propTypes = {
   currentUser: PropTypes.object,
   inProgress: PropTypes.bool,
   tagList: PropTypes.array,
-  errors: PropTypes.array,
+  errors: PropTypes.object,
   onAddTag: PropTypes.func,
   onLoad: PropTypes.func,
   onRemoveTag: PropTypes.func,
@@ -163,14 +160,16 @@ Editor.propTypes = {
   onUpdateField: PropTypes.func,
 }
 const mapStateToProps = state => ({
-  ...state.editor
+  ...state.article.article,
+  ...state.editor,
+  errors: state.article.createArticleErrors
 });
 
 const mapDispatchToProps = dispatch => ({
   onAddTag: () =>
     dispatch(EditorActions.addTag()),
   onLoad: payload =>
-    dispatch(EditorActions.editorPageloaded({payload})),
+    dispatch(EditorActions.editorPageloaded({ payload })),
   onRemoveTag: tag =>
     dispatch(EditorActions.removeTag({tag})),
   onSubmit: payload =>
@@ -178,11 +177,11 @@ const mapDispatchToProps = dispatch => ({
   onUpdateField: (key, value) =>
     dispatch(EditorActions.updateFieldEditor({key, value })),
   onUpdateArticle: (slug, article) =>
-    dispatch(ArticleActions.updateArticle(slug, article )),
-  onCreateArticle: (article) =>
+    dispatch(ArticleActions.updateArticle( slug, article )),
+  onCreateArticle: article =>
     dispatch(ArticleActions.createArticle(article)),
-  onGetArticles: (article) =>
-    dispatch(ArticleActions.getArticles(article)),
+  onGetArticle: (article) =>
+    dispatch(ArticleActions.getArticle(article)),
   onUnload: () =>
     dispatch(CommonActions.pageUnloaded())
 });

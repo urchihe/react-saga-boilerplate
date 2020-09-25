@@ -2,7 +2,7 @@ import { createActions } from 'reduxsauce'
 
 const { Types, Creators } = createActions({
     createComment: ['slug','comment'],
-    createCommentSuccess: ['commentId'],
+    createCommentSuccess: ['payload'],
     createCommentError: ['error'],
     deleteComment: ['slug','commentId'],
     deleteCommentSuccess: ['comment'],

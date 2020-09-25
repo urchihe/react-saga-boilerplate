@@ -41,9 +41,9 @@ Tags.propTypes = {
   onClickTag: PropTypes.func,
 }
 const mapDispatchToProps = dispatch => ({
-  onClickTag: (tag, pager, payload) =>
-    dispatch(ArticleActions.getArticlesByTag(tag, pager, payload)),
-  articleTags: (tag, pager, payload) =>
-    dispatch(ArticleActions.getArticlesByTag(tag, pager, payload)),
+  onClickTag: (tag, pager) =>
+    dispatch(ArticleActions.getArticlesByTag(tag, pager)),
+  articleTags: (tag, pager) =>
+    dispatch(ArticleActions.getArticlesByTag(tag, pager)),
 });
 export default connect(() => ({}), mapDispatchToProps)(Tags);

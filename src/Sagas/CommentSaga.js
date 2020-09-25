@@ -11,8 +11,8 @@ import { CommentService } from '../Services/Api'
  * Feel free to remove it.
  */
 // get the current user
-export function* createComment() {
-  const response = yield call(CommentService.createComment)
+export function* createComment({slug, comment}) {
+  const response = yield call(CommentService.createComment,slug,comment)
   if (response.ok === true) {
     yield put(CommentActions.createCommentSuccess(response.data))
     return
@@ -31,8 +31,8 @@ export function* deleteComment({slug, commentId}) {
 }
 
 // get the current user
-export function* getArticleComments({slug}) {
-  const response = yield call(CommentService.getArticleComments,{ slug })
+export function* getArticleComments({ slug }) {
+  const response = yield call(CommentService.getArticleComments,slug)
   if (response.ok === true) {
     console.log(response.data)
     yield put(CommentActions.articleCommentsSuccess(response.data))

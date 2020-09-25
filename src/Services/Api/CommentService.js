@@ -1,8 +1,9 @@
 import { ApiService } from '../ApiService'
 
 
-function createComment(slug , comment) {
-  return ApiService.post(`/articles/${slug}/comments`, { comment })
+function createComment(slug, comment) {
+  console.log({comment})
+  return ApiService.post(`/articles/${slug}/comments`,{ comment })
 }
 
 function deleteComment(slug , commentId) {

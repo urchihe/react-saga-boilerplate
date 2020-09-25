@@ -19,14 +19,14 @@
     unfavoriteArticleIsLoading: false,
     unfavoriteArticleErrors: null,
     updateArticleIsLoading: false,
-    updateArticleErrors: null,
     createArticleIsLoading: false,
     createArticleErrors: null,
     redirectTo: null,
     currentPage: 0,
     articlesCount: 0,
-    tab: null,
+    tab: 'feed',
     pager: null,
-    tags: []
+    tags: [],
+    tag: null
   }
   

@@ -3,8 +3,9 @@ import React from 'react';
 import { PropTypes } from 'prop-types'
 
 const CommentList = (props) => {
+  if(props.comments.length > 0){
   return (
-    <div>
+      <div>
       {
         props.comments.map(comment => {
           return (
@@ -17,10 +18,14 @@ const CommentList = (props) => {
         })
       }
     </div>
+    
   );
+}else{
+  return <div></div>
+}
 };
 CommentList.propTypes = {
-  comments: PropTypes.array,
+  comments: PropTypes.object,
   currentUser: PropTypes.object,
   slug: PropTypes.string
 }

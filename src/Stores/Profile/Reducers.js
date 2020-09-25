@@ -8,9 +8,9 @@ export const followUser = (state) => ({
   followUserErrors: null,
 })
 
-export const followUserSuccess = (state, {action}) => ({
+export const followUserSuccess = (state, { profile }) => ({
     ...state,
-    ...action.payload.profile,
+    profile: profile.profile,
     followUserIsLoading: false,
     followUserErrors: null,
 })
@@ -28,12 +28,12 @@ export const getProfile = (state) => ({
   
 export const profileSuccess = (state, { profile }) => ({
     ...state,
-    profile : profile,
+    profile : profile.profile,
     getProfileIsLoading: false,
     getProfileErrors: null,
 })
 
-export const profileError = (state, {error}) => ({
+export const profileError = (state, { error }) => ({
     ...state,
     getProfileIsLoading: false,
     getProfileErrors: error,
@@ -45,14 +45,14 @@ export const unfollowUser = (state) => ({
     unfollowUserErrors: null,
 })
   
-export const unfollowUserSuccess = (state,{action}) => ({
+export const unfollowUserSuccess = (state,{ profile }) => ({
     ...state,
-    ...action.payload.profile,
+    profile: profile.profile,
     unfollowUserIsLoading: false,
     unfollowUserErrors: null,
 })
 
-export const unfollowUserError = (state, {error}) => ({
+export const unfollowUserError = (state, { error }) => ({
     ...state,
     unfollowUserIsLoading: false,
     unfollowUserErrors: error,
@@ -60,13 +60,16 @@ export const unfollowUserError = (state, {error}) => ({
 
 export const profilePageLoaded = (state, {action}) => ({
     ...state,
-    ...action.payload[0].profile
+    ...action.profile
 })
 
 export const reducer = createReducer(INITIAL_STATE, {
     [ProfileTypes.FOLLOW_USER]: followUser,
     [ProfileTypes.FOLLOW_USER_SUCCESS]: followUserSuccess,
     [ProfileTypes.FOLLOW_USER_ERROR]: followUserError,
+    [ProfileTypes.UNFOLLOW_USER]: unfollowUser,
+    [ProfileTypes.UNFOLLOW_USER_SUCCESS]: unfollowUserSuccess,
+    [ProfileTypes.UNFOLLOW_USER_ERROR]: unfollowUserError,
     [ProfileTypes.GET_PROFILE]: getProfile,
     [ProfileTypes.PROFILE_SUCCESS]: profileSuccess,
     [ProfileTypes.PROFILE_ERROR]: profileError,

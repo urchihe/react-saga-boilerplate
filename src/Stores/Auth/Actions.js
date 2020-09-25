@@ -8,7 +8,7 @@ const { Types, Creators } = createActions({
     loginSuccess: ['payload'],
     loginError: ['error'],
     register: ['username','email','password'],
-    registerSuccess: ['user'],
+    registerSuccess: ['payload'],
     registerError: ['error'],
     save: ['user'],
     saveSuccess: ['user'],
@@ -17,7 +17,11 @@ const { Types, Creators } = createActions({
     updateFieldAuth: ['action'],
     asyncStart: null,
     asyncEnd: null,
-    logout: null
+    logout: null,
+    logoutSuccess: null,
+    logoutError: ['error'],
+    redirect: null,
+
 })
 export const AuthTypes = Types
 export default Creators

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types'
 
 
-const LoggedOutView = (props) => {
-  if (!props.currentUser) {
+const LoggedOutView = props => {
+  if ((Object.keys(props.currentUser).length  === 0)) {
     return (
       <ul className="nav navbar-nav pull-xs-right">
 
@@ -35,8 +35,8 @@ LoggedOutView.propTypes = {
   currentUser: PropTypes.object
 }
 
-const LoggedInView = (props) => {
-  if (props.currentUser) {
+const LoggedInView = props => {
+  if (!(Object.keys(props.currentUser).length  === 0)) {
     return (
       <ul className="nav navbar-nav pull-xs-right">
 
@@ -62,7 +62,7 @@ const LoggedInView = (props) => {
           <Link
             to={`/@${props.currentUser.username}`}
             className="nav-link">
-            <img src={props.currentUser.image} className="user-pic" alt={props.currentUser.username} />
+            <img src={props.currentUser.image} className="user-pic" alt={props.currentUser.image} />
             {props.currentUser.username}
           </Link>
         </li>

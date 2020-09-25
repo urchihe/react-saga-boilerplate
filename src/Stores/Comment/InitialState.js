@@ -1,5 +1,5 @@
 export const INITIAL_STATE = {
-    comments: [],
+    comments: {},
     createCommenIsLoading: false,
     createCommenErrors: null,
     deleteCommentIsLoading: false,

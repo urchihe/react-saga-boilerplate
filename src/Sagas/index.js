@@ -21,7 +21,8 @@ import {
   getCurrentUser,
   login,
   register,
-  save } from './AuthSaga'
+  save, 
+  logout } from './AuthSaga'
 import { 
   createComment,
   deleteComment,
@@ -51,6 +52,7 @@ export default function* root() {
     takeLatest(AuthTypes.LOGIN, login),
     takeLatest(AuthTypes.REGISTER, register),
     takeLatest(AuthTypes.SAVE, save),
+    takeLatest(AuthTypes.LOGOUT, logout),
 
     takeLatest(CommentTypes.CREATE_COMMENT, createComment),
     takeLatest(CommentTypes.DELETE_COMMENT, deleteComment),

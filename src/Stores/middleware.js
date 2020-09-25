@@ -1,4 +1,5 @@
 import AuthActions from './Auth/Actions';
+import { push } from 'react-router-redux';
 
 const promiseMiddleware = store => next => action => {
   if (isPromise(action)) {
@@ -9,11 +10,10 @@ const promiseMiddleware = store => next => action => {
 
     action.payload.then(
       res => {
-        const currentState = store.getState().common.currentUser
+        const currentState = store.getState().auth.currentUser
         if (!skipTracking && currentState.viewChangeCounter !== currentView) {
           return
         }
-        console.log('RESULT', res);
         action.payload = res;
         store.dispatch(AuthActions.asyncEnd());
         store.dispatch(action);
@@ -23,7 +23,6 @@ const promiseMiddleware = store => next => action => {
         if (!skipTracking && currentState.viewChangeCounter !== currentView) {
           return
         }
-        console.log('ERROR', error);
         action.error = true;
         action.payload = error.response.body;
         if (!action.skipTracking) {
@@ -40,15 +39,16 @@ const promiseMiddleware = store => next => action => {
 };
 
 const localStorageMiddleware = store => next => action => {
-  if (store.getState().auth.loginIsLoading || store.getState().auth.registerIsLoading) {
-    if (!action.error) {
-      console.log(action)
+  if (action.type === 'LOGIN_SUCCESS' || action.type === 'REGISTER_SUCCESS') {
+    if (action.payload) {
       window.localStorage.setItem('jwt', action.payload.user.token);
       AuthActions.setToken(action.payload.user.token);
     }
-  } else if (store.getState().auth.logoutIsLoading) {
+  } else if (action.type === 'LOGOUT_SUCCESS') {
     window.localStorage.setItem('jwt', '');
     AuthActions.setToken(null);
+  }  else if (action.type === 'FAVOURITE_ARTICLE_ERROR' && !action.payload) {
+    store.dispatch(push('/login'))
   }
 
   next(action);

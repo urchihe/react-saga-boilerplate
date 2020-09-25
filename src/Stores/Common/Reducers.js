@@ -2,7 +2,7 @@ import { INITIAL_STATE } from './InitialState'
 import { createReducer } from 'reduxsauce'
 import { CommonTypes } from './Actions'
 
-export const appLoad = (state,{user,token,skipTracking}) => ({
+export const appLoad = (state, {user, token, skipTracking} ) => ({
   ...state,
   token: token,
   appLoaded: true,
@@ -12,7 +12,7 @@ export const appLoad = (state,{user,token,skipTracking}) => ({
 
 export const redirect = (state) => ({
   ...state,
-  redirectTo: INITIAL_STATE.redirectTo,
+  redirectTo: null,
 })
 
 export const pageUnloaded = (state) => ({

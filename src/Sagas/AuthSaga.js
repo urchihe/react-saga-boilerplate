@@ -14,7 +14,6 @@ import { AuthService } from '../Services/Api'
 export function* getCurrentUser() {
   const response = yield call(AuthService.getCurrentUser)
   if (response.ok === true) {
-    console.log(response.data)
     yield put(AuthActions.currentUserSuccess(response.data))
     return
   }
@@ -33,19 +32,17 @@ export function* login({email,password}) {
 
 // register new user
 export function* register({username,email,password}) {
-  console.log(email)
   const response = yield call(AuthService.register,{username,email,password})
   if (response.ok === true) {
-    yield put(AuthActions.loginSuccess(response.data))
+    yield put(AuthActions.registerSuccess(response.data))
     return
   }
-  console.log(response.data)
-  yield put(AuthActions.loginError(response.data))
+  yield put(AuthActions.registerError(response.data))
 }
 
 // register new user
 export function* save({user}) {
-  const response = yield call(AuthService.save,{ user })
+  const response = yield call(AuthService.save,{user})
   if (response.ok === true) {
     yield put(AuthActions.saveSuccess(response.data))
     return
@@ -55,10 +52,6 @@ export function* save({user}) {
 
 // logout user
 export function* logout() {
-  const response = yield call(AuthService.logout)
-  if (response.ok === true) {
     yield put(AuthActions.logoutSuccess())
     return
-  }
-  yield put(AuthActions.logoutError(response.data))
 }

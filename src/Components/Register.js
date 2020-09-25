@@ -95,15 +95,18 @@ Register.propTypes = {
   inProgress: PropTypes.bool,
   email: PropTypes.string,
   password: PropTypes.string,
-  errors: PropTypes.array,
   onChangeEmail: PropTypes.func,
   onChangePassword: PropTypes.func,
   onChangeUsername: PropTypes.func,
   onSubmit: PropTypes.func,
-  onUnload: PropTypes.func, 
+  onUnload: PropTypes.func,
+  errors: PropTypes.object
 }
 
-const mapStateToProps = state => ({ ...state.auth });
+const mapStateToProps = state => ({
+   ...state.auth,
+   errors: state.auth.registerErrors 
+  });
 
 const mapDispatchToProps = dispatch => ({
   onChangeEmail: value =>

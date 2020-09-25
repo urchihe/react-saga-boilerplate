@@ -84,10 +84,14 @@ Login.propTypes = {
   onSubmit: PropTypes.func,
   onChangePassword: PropTypes.func,
   onChangeEmail: PropTypes.func,
-  onUnload: PropTypes.func, 
+  onUnload: PropTypes.func,
+  errors: PropTypes.object
 }
 
-const mapStateToProps = state => ({ ...state.auth });
+const mapStateToProps = state => ({ 
+  ...state.auth,
+  errors: state.auth.loginErrors
+});
 
 const mapDispatchToProps = dispatch => ({
   onChangeEmail: value =>

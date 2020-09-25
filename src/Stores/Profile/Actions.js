@@ -2,13 +2,13 @@ import { createActions } from 'reduxsauce'
 
 const { Types, Creators } = createActions({
     followUser: ['username'],
-    followUserSuccess: null,
+    followUserSuccess: ['profile'],
     followUserError: ['error'],
     getProfile: ['username'],
     profileSuccess: ['profile'],
     profileError: ['error'],
     unfollowUser: ['username'],
-    unfollowUserSucess: null,
+    unfollowUserSuccess: ['profile'],
     unfollowUserError: ['error'],
     profilePageLoaded: ['action'],
 })

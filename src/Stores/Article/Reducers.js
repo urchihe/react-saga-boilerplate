@@ -10,6 +10,7 @@ export const getArticles = (state) => ({
 
 export const articlesSuccess = (state, { payload }) => ({
   ...state,
+  article: payload.article, 
   articles: payload.articles,
   articlesCount: payload.articlesCount,
   articlesIsLoading: false,
@@ -31,8 +32,8 @@ export const getArticle = (state) => ({
 
 export const articleSuccess = (state, { article }) => ({
     ...state,
-    articles: INITIAL_STATE.articles,
-    article: article,
+    articles:  article.articles,
+    article: article.article,
     articleIsLoading: false,
     articleErrors: null,
   })
@@ -56,7 +57,7 @@ export const getArticlesByAuthor = (state) => ({
   
 export const articlesByAuthorSuccess = (state, { articles }) => ({
     ...state,
-    articles: state.articles.length <= 0 ? articles : state.articles.concat(articles),
+    articles: articles.articles,
     articlesByAuthorIsLoading: false,
     articlesByAuthorErrors: null,
 })
@@ -68,10 +69,12 @@ export const articlesByAuthorError = (state, {errors}) => ({
     articles: INITIAL_STATE.articles,
 })
 
-export const getArticlesByTag = (state) => ({
+export const getArticlesByTag = (state,{tag, pager}) => ({
     ...state,
     articlesByTagIsLoading: true,
     articlesByTagErrors: null,
+    tag: tag,
+    tab: ''
   })
   
 export const articlesByTagSuccess = (state, { payload }) => ({
@@ -133,7 +136,7 @@ export const favouriteArticleSuccess = (state, { payload }) => ({
     setFavouriteArticleErrors: null,
 })
     
-export const favouriteArticleError = (state, {error}) => ({
+export const favouriteArticleError = (state, { error }) => ({
     ...state,
     setFavouriteArticleIsLoading: false,
     setFavouriteArticleErrors: error,
@@ -145,8 +148,9 @@ export const getFavouritedByArticle = (state) => ({
     getFavouritedByErrors: null,
   })
   
-export const favouritedByArticleSuccess = (state) => ({
+export const favouritedByArticleSuccess = (state, { payload }) => ({
     ...state,
+    articles: payload.articles,
     getFavouritedByIsLoading: false,
     getFavouritedByErrors: null,
 })
@@ -163,8 +167,12 @@ export const getFeed = (state) => ({
     getFeedErrors: null,
   })
   
-export const feedSuccess = (state) => ({
+export const feedSuccess = (state, { payload }) => ({
     ...state,
+    articles: payload.articles,
+    articlesCount: payload.articlesCount,
+    articlesIsLoading: false,
+    articlesErrors: null,
     getFeedIsLoading: false,
     getFeedErrors: null,
 })
@@ -215,10 +223,10 @@ export const updateArticleSuccess = (state) => ({
     updateArticleErrors: null,
 })
     
-export const updateArticleleError = (state, {errors}) => ({
+export const updateArticleleError = (state, { error }) => ({
     ...state,
     updateArticleIsLoading: false,
-    updateArticleErrors: errors,
+    createArticleErrors: error,
 })
 
 export const createArticle = (state) => ({
@@ -227,17 +235,18 @@ export const createArticle = (state) => ({
     createArticleErrors: null,
   })
   
-export const createArticleSuccess = (state,{article}) => ({
+export const createArticleSuccess = (state,{ article }) => ({
     ...state,
-    redirectTo: `/article/${article.slug}`,
+    article: article.article,
+    redirectTo: `/article/${article.article.slug}`,
     createArticleIsLoading: false,
     createArticleErrors: null,
 })
     
-export const createArticleleError = (state, {errors}) => ({
+export const createArticleleError = (state, { error }) => ({
     ...state,
     createArticleIsLoading: false,
-    createArticleErrors: errors,
+    createArticleErrors: error,
 })
 
 export const setPage = (state,{ payload }) => ({
@@ -268,19 +277,14 @@ export const homePageLoaded = (state, {action}) => ({
 })
 
 export const changeTabs = (state, {action}) => ({
-  ...state,
-  pager: action.pager,
-  articles: action.articles,
-  articlesCount: action.articlesCount,
-  tab: action.tab,
-  currentPage: 0,
-  tag: null
+  ...state.articles,
+  tab: action
 })
 export const profilePageLoaded = (state, {action}) => ({
   ...state,
   pager: action.pager,
-  articles: action.payload[1].articles,
-  articlesCount: action.payload[1].articlesCount,
+  articles: action.articles,
+  articlesCount: action.articlesCount,
   currentPage: 0
 })
 

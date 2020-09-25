@@ -7,11 +7,9 @@ import { PropTypes } from 'prop-types'
 const FAVORITED_CLASS = 'btn btn-sm btn-primary';
 const NOT_FAVORITED_CLASS = 'btn btn-sm btn-outline-primary';
 
-const ArticlePreview = (props) => {
+const ArticlePreview = props => {
   const article = props.article;
-  const favouriteButtonClass = article.favorited ?
-    FAVORITED_CLASS :
-    NOT_FAVORITED_CLASS;
+  const favouriteButtonClass = article.favorited ? FAVORITED_CLASS : NOT_FAVORITED_CLASS;
 
   const handleClick = ev => {
     ev.preventDefault();

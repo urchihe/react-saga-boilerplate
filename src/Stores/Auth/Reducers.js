@@ -55,12 +55,12 @@ export const register = (state) => ({
     registerErrors: null,
 })
   
-export const registerSuccess = (state, {user,token,currentUser} ) => ({
+export const registerSuccess = (state, { payload } ) => ({
     ...state,
-    user: user,
+    user: payload.user,
     redirectTo: '/',
-    token: token,
-    currentUser: currentUser,
+    token: payload.user.token,
+    currentUser:payload.user,
     registerIsLoading: false,
     registerErrors: null,
 })
@@ -75,17 +75,19 @@ export const registerError = (state, {error}) => ({
     currentUser: INITIAL_STATE.currentUser,
 })
 
-export const save = (state) => ({
+export const save = (state, { user }) => ({
     ...state,
+    user: user.user,
+    currentUser: user.user,
     saveIsLoading: true,
     saveErrors: null,
 })
   
-export const saveSuccess = (state, {user, currentUser } ) => ({
+export const saveSuccess = (state, { user } ) => ({
     ...state,
-    user: user,
+    user: user.user,
     redirectTo: '/',
-    currentUser: currentUser,
+    currentUser: user.user,
     saveIsLoading: false,
     saveErrors: null,
 })
@@ -109,9 +111,10 @@ export const logoutSuccess = (state) => ({
     ...state,
     redirectTo: '/',
     token: null,
-    currentUser: null,
+    currentUser: {},
     logoutIsLoading: false,
     logoutErrors: null,
+    user: {}
 })
   
 export const logoutError = (state, {error}) => ({
@@ -142,6 +145,12 @@ export const asyncEnd = (state) => ({
 inProgress: false
 })
 
+
+export const redirect = (state) => ({
+    ...state,
+    redirectTo: null,
+  })
+
 export const reducer = createReducer(INITIAL_STATE, {
     [AuthTypes.GET_CURRENT_USER]: getCurrentUser,
     [AuthTypes.CURRENT_USER_SUCCESS]: currentUserSuccess,
@@ -159,5 +168,9 @@ export const reducer = createReducer(INITIAL_STATE, {
     [AuthTypes.UPDATE_FIELD_AUTH]: updateFieldAuth,
     [AuthTypes.ASYNC_START]: asyncStart,
     [AuthTypes.ASYNC_END]: asyncEnd,
+    [AuthTypes.LOGOUT]: logout,
+    [AuthTypes.LOGOUT_SUCCESS]: logoutSuccess,
+    [AuthTypes.LOGOUT_ERROR]: logoutError,
+    [AuthTypes.REDIRECT]: redirect,
   })
   

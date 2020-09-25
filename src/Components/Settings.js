@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types'
 
 class SettingsForm extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       image: '',
       username: '',
@@ -15,45 +15,39 @@ class SettingsForm extends React.Component {
       email: '',
       password: ''
     };
-
     this.updateState = field => ev => {
-      const state = this.state;
-      const newState = Object.assign({}, state, { [field]: ev.target.value });
+      const newState = Object.assign({}, this.state, { [field]: ev.target.value });
       this.setState(newState);
     };
-
     this.submitForm = ev => {
       ev.preventDefault();
-
       const user = Object.assign({}, this.state);
       if (!user.password) {
         delete user.password;
       }
-
       this.props.onSubmitForm(user);
     };
   }
 
   componentDidMount() {
-    console.log(this.props.currentUser)
     if (this.props.currentUser) {
       Object.assign(this.state, {
         image: this.props.currentUser.image || '',
-        username: this.props.currentUser.username,
-        bio: this.props.currentUser.bio,
-        email: this.props.currentUser.email
+        username: this.props.currentUser.username  || '',
+        bio: this.props.currentUser.bio  || '',
+        email: this.props.currentUser.email || ''
       });
     }
   }
 
   componentWillUpdate(nextProps) {
     if (nextProps.currentUser) {
-      this.setState(Object.assign({}, this.state, {
+      Object.assign(this.state, {
         image: nextProps.currentUser.image || '',
-        username: nextProps.currentUser.username,
-        bio: nextProps.currentUser.bio,
-        email: nextProps.currentUser.email
-      }));
+        username: nextProps.currentUser.username  || '',
+        bio: nextProps.currentUser.bio  || '',
+        email: nextProps.currentUser.email || ''
+      });
     }
   }
 

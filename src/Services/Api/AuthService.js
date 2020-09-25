@@ -12,8 +12,8 @@ function register(username,email,password) {
     return ApiService.post('/users',{ user: username,email,password})
 }
 
-function save(user) {
-    return ApiService.put('/user',{ user })
+function save({user}) {
+    return ApiService.put('/user',user)
 }
 
 function logout() {

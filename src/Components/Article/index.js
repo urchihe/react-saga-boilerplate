@@ -8,13 +8,19 @@ import { connect } from 'react-redux';
 import marked from 'marked';
 import { PropTypes } from 'prop-types'
 
-class Article extends React.Component {
-  componentDidMount() {(Promise.all([
-    this.props.onLoad(this.props.match.params.id),
-    this.props.loadComments(this.props.match.params.id)
-    ]));
+class Index extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      slug: this.props.match.params.id,
+      textValue: "",
+    };
   }
-
+  componentDidMount() {
+    if(this.state.slug){
+       this.props.onLoad(this.state.slug)
+    }
+  }
   componentWillUnmount() {
     this.props.onUnload();
   }
@@ -23,10 +29,9 @@ class Article extends React.Component {
     if (!this.props.article) {
       return null;
     }
-    console.log(this.props.article)
     const markup = { __html: marked(this.props.article.body || '') };
-    const canModify = this.props.currentUser &&
-      this.props.currentUser.username === this.props.article.author.username;
+     const canModify = this.props.currentUser &&
+      this.props.currentUser.username === this.props.article.author.username
     return (
       <div className="article-page">
 
@@ -83,8 +88,9 @@ class Article extends React.Component {
   }
 }
 
-Article.propTypes = {
-  comments: PropTypes.array,
+Index.propTypes = {
+  comments: PropTypes.object,
+  article: PropTypes.object,
   currentUser: PropTypes.object,
   canModify: PropTypes.bool,
   onLoad: PropTypes.func,
@@ -94,17 +100,17 @@ Article.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  ...state.article,
-  comments:state.comment.comments,
-  currentUser: state.common.currentUser
+  ...state.article, 
+  ...state.comment,
+  currentUser: state.auth.currentUser
 });
-
 const mapDispatchToProps = dispatch => ({
-  onLoad: slug =>
-    dispatch(ArticleActions.getArticle(slug)),
+  onLoad: slug => {
+    dispatch(ArticleActions.getArticle(slug))
+    dispatch(CommentActions.getArticleComments(slug))
+  },
   onUnload: () =>
     dispatch(CommonActions.pageUnloaded()),
-  loadComments: (slug) =>  dispatch(CommentActions.getArticleComments(slug))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Article);
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

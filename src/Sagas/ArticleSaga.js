@@ -24,15 +24,15 @@ export function* getArticlesByAuthor({ author, page }) {
   const response = yield call(ArticleService.getArticlesByAuthor,author,page)
  // const state = yield select()
   if (response.ok === true) {
-    yield put(ArticleActions.getArticlesByAuthorSuccess(response.data))
+    yield put(ArticleActions.articlesByAuthorSuccess(response.data))
     return
   }
-  yield put(ArticleActions.getArticlesByAuthorError(response.data))
+  yield put(ArticleActions.articlesByAuthorError(response.data))
 }
 
 // get article by tag
-export function* getArticlesByTag({ tag,page }) {
-  const response = yield call(ArticleService.getArticlesByTag,tag,page)
+export function* getArticlesByTag({ tag, page }) {
+  const response = yield call(ArticleService.getArticlesByTag, tag, page)
   // const state = yield select()
   if (response.ok === true) {
     yield put(ArticleActions.articlesByTagSuccess(response.data))
@@ -65,16 +65,16 @@ export function* setFavoriteArticle({ slug }) {
 
 // delete article by slug
 export function* getFavouritedByArticle({ author, page }) {
-  const response = yield call(ArticleService.getFavouritedByArticle, {author, page})
+  const response = yield call(ArticleService.getFavouritedByArticle,author, page)
   // const state = yield select()
   if (response.ok === true) {
-    yield put(ArticleActions.getArticleFavoritedBySuccess(response.data))
+    yield put(ArticleActions.favouritedByArticleSuccess(response.data))
     return
     }
-  yield put(ArticleActions.getArticleFavoritedByError(response.data))
+  yield put(ArticleActions.favouritedByArticleError(response.data))
 }
 
-// delete article by slug
+// get user feeds
 export function* getFeed() {
   const response = yield call(ArticleService.getFeed)
   if (response.ok === true) {
@@ -86,9 +86,8 @@ export function* getFeed() {
 
 // delete article by slug
 export function* getArticle({ slug }) {
-  const response = yield call(ArticleService.getArticle,{slug})
+  const response = yield call(ArticleService.getArticle,slug)
   if (response.ok === true) {
-    console.log(response.data)
     yield put(ArticleActions.articleSuccess(response.data))
     return
   }
@@ -107,19 +106,18 @@ export function* unfavoriteArticle({ slug }) {
 
 // delete article by slug
 export function* updateArticle({ article }) {
-  const response = yield call(ArticleService.updateArticle, {article})
-  // const state = yield select()
+  const response = yield call(ArticleService.updateArticle,article)
   if (response.ok === true) {
     yield put(ArticleActions.updateArticleSuccess(response.data))
     return
   }
-    yield put(ArticleActions.updateArticleError(response.data))
+    yield put(ArticleActions.createArticleError(response.data))
 }
 
 // delete article by slug
 export function* createArticle({ article }) {
-  const response = yield call(ArticleService.createArticle, {article})
-  // const state = yield select()
+  const response = yield call(ArticleService.createArticle,article)
+  console.log(response)
   if (response.ok === true) {
     yield put(ArticleActions.createArticleSuccess(response.data))
     return

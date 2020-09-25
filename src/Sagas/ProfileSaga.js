@@ -1,5 +1,5 @@
 import { put, call} from 'redux-saga/effects'
-import ProfileActions from '../Stores/Comment/Actions'
+import ProfileActions from '../Stores/Profile/Actions'
 //import CommonActions from 'App/Stores/Common/Actions'
 import { ProfileService } from '../Services/Api'
 //import { parseErrors } from 'App/Services/ApiService'
@@ -11,28 +11,28 @@ import { ProfileService } from '../Services/Api'
  * Feel free to remove it.
  */
 // get the current user
-export function* followUser( {username}) {
-  const response = yield call(ProfileService.followUser,{username})
+export function* followUser({ username }) {
+  const response = yield call(ProfileService.followUser,username)
   if (response.ok === true) {
     yield put(ProfileActions.followUserSuccess(response.data))
     return
   }
-    yield put(ProfileActions.followUsertError(response.data))
+    yield put(ProfileActions.followUserError(response.data))
 }
 
 // get the current user
-export function* getProfile({username}) {
-  const response = yield call(ProfileService.getProfile,{username})
+export function* getProfile({ username }) {
+  const response = yield call(ProfileService.getProfile, username)
   if (response.ok === true) {
-    yield put(ProfileActions.getProfileSuccess(response.data))
+    yield put(ProfileActions.profileSuccess(response.data))
     return
   }
-  yield put(ProfileActions.getProfileError(response.data))
+  yield put(ProfileActions.profileError(response.data))
 }
 
 // get the current user
 export function* unfollowUser({username}) {
-  const response = yield call(ProfileService.unfollowUser,{username})
+  const response = yield call(ProfileService.unfollowUser,username)
   if (response.ok === true) {
     yield put(ProfileActions.unfollowUserSuccess(response.data))
     return

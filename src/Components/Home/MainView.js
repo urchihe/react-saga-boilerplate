@@ -8,7 +8,7 @@ const YourFeedTab = (props) => {
   if (props.token) {
     const clickHandler = ev => {
       ev.preventDefault();
-      props.onTabClick('feed', ArticleActions.getFeed, ArticleActions.getFeed());
+      props.onTabClickGetFeed('feed', props.pager);
     }
 
     return (
@@ -27,13 +27,13 @@ const YourFeedTab = (props) => {
 YourFeedTab.propTypes = {
   token: PropTypes.string,
   tab: PropTypes.string,
-  onTabClick: PropTypes.func,
+  onTabClickGetFeed: PropTypes.func,
 }
 
 const GlobalFeedTab = (props) => {
   const clickHandler = ev => {
     ev.preventDefault();
-    props.onTabClick('all', ArticleActions.getArticles, ArticleActions.getArticles());
+    props.onTabClickGetArticles('all', props.pager);
   };
   return (
     <li className="nav-item">
@@ -49,7 +49,7 @@ const GlobalFeedTab = (props) => {
 
 GlobalFeedTab.propTypes = {
   tab: PropTypes.string,
-  onTabClick: PropTypes.func,
+  onTabClickGetArticles: PropTypes.func,
 }
 
 const TagFilterTab = (props) => {
@@ -66,7 +66,7 @@ const TagFilterTab = (props) => {
 };
 
 TagFilterTab.propTypes = {
-  tab: PropTypes.string,
+  tag: PropTypes.string,
 }
 
 const MainView = (props) => {
@@ -78,9 +78,14 @@ const MainView = (props) => {
           <YourFeedTab
             token={props.token}
             tab={props.tab}
-            onTabClick={props.onTabClick} />
+            pager={props.pager}
+            onTabClickGetFeed={props.onTabClickGetFeed} />
 
-          <GlobalFeedTab tab={props.tab} onTabClick={props.onTabClick} />
+          <GlobalFeedTab 
+          tab={props.tab} 
+          pager={props.pager} 
+          onTabClickGetArticles={props.onTabClickGetArticles}
+           />
 
           <TagFilterTab tag={props.tag} />
 
@@ -99,25 +104,33 @@ const MainView = (props) => {
 
 MainView.propTypes = {
   articles: PropTypes.array,
-  tags: PropTypes.array,
+  tag: PropTypes.string,
   tab: PropTypes.string,
   loading: PropTypes.bool,
   articlesCount: PropTypes.number,
   token: PropTypes.string,
   currentPage: PropTypes.number,
   pager: PropTypes.number,
-  onTabClick: PropTypes.func,
+  onTabClickGetFeed: PropTypes.func,
+  onTabClickGetArticles: PropTypes.func,
   loadArticles: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
   ...state.article,
-  tags: state.tag.tags,
-  token: state.common.token
+  tag: state.article.tag,
+  token: state.common.token,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onTabClick: (tab, pager, payload) => dispatch(ArticleActions.changeTabs(tab, pager, payload )),
+  onTabClickGetFeed: (tab, pager) => { 
+     dispatch(ArticleActions.getFeed(pager))
+     dispatch(ArticleActions.changeTabs(tab))
+    },
+  onTabClickGetArticles:(tab,pager) => {
+    dispatch(ArticleActions.getArticles(pager)) 
+    dispatch(ArticleActions.changeTabs(tab))
+  },
   loadArticles: (pager) =>
   dispatch(ArticleActions.getArticles(pager)),
 });

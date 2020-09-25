@@ -2,6 +2,7 @@ import { ApiService } from '../ApiService'
 
 const omitSlug = article => Object.assign({}, article, { slug: undefined })
 const COUNT = 10
+const encode = encodeURIComponent;
 
 function getArticles(page) {
   return ApiService.get('/articles', {
@@ -35,15 +36,11 @@ function setFavoriteArticle(slug) {
 }
 
 function getFavouritedByArticle(author, page) {
-  return ApiService.get('/articles',{
-    author: author,
-    limit: COUNT,
-    offset: page ? page * COUNT : 0
-  })
+  return ApiService.get(`/articles?favorite=${encode(author)}&${COUNT}`)
 }
 
 function getFeed() {
-  return ApiService.get('/articles/feed',{
+  return ApiService.get('/articles/feed?',{
     limit: COUNT,
     offset: 0
   })
@@ -64,7 +61,8 @@ function updateArticle(article) {
 }
 
 function createArticle(article) {
-  return ApiService.post('/articles',{article})
+  console.log(article)
+  return ApiService.post('/articles',{ article })
 }
 
 export const ArticleService = {
