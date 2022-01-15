@@ -11,7 +11,7 @@
     "apisauce": "^1.1.1",
     "connected-react-router": "^6.8.0",
     "history": "^4.10.1",
-    "marked": "^1.0.0",
+    "marked": "^4.0.10",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
